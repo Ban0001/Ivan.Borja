@@ -8,6 +8,84 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Lightbox styles -->
+    <style>
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            padding: 20px;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox-content {
+            position: relative;
+            max-width: 1100px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            object-fit: contain;
+            background: #fff;
+        }
+        .lightbox-caption {
+            color: #fff;
+            text-align: center;
+            font-size: 0.95rem;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        .lightbox-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        .lightbox-button {
+            pointer-events: auto;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            color: #fff;
+            font-size: 1.4rem;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 0 6px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+        .lightbox-button:hover { background: rgba(0,0,0,0.7); }
+        .lightbox-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: #fff;
+            padding: 8px 10px;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* clickable cursor for thumbnails */
+        .gallery-img, .award-img { cursor: pointer; }
+    </style>
 </head>
 <body>
     <header class="hero">
@@ -40,7 +118,8 @@
     <section class="container section about-me">
         <h2>About Me</h2>
         <p>
-            I’m an analytical, results-driven professional specializing in problem-solving and project management. I thrive in dynamic environments, delivering innovative solutions with a focus on efficiency and collaboration.
+            Analytical and results-driven professional with a strong background in problemsolving and project management. Thrives in fast-paced environments and excels under pressure. Possesses exceptional adaptability and is a quick learner, eager to take on new challenges and drive innovative solutions. Demonstrated ability to lead projects to successful completion through strategic planning and effective team collaboration.
+
         </p>
     </section>
 
@@ -127,25 +206,25 @@
         <h2>Work Gallery</h2>
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="images/UIUX.jpg" alt="Work Sample 1" class="gallery-img">
+                <img src="images/UIUX.jpg" alt="Company Login System: Design/Developed" class="gallery-img" data-index="0">
                 <div class="gallery-overlay">
                     <p>Company Login System: Design/Developed</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="images/Media (2).jfif" alt="Work Sample 2" class="gallery-img">
+                <img src="images/Media (2).jfif" alt="Photoshop/Illustration: Vector Art" class="gallery-img" data-index="1">
                 <div class="gallery-overlay">
                     <p>Photoshop/Illustration: Vector Art</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="images/Media (3).jfif" alt="Work Sample 3" class="gallery-img">
+                <img src="images/Media (3).jfif" alt="Photoshop/Illustration: Vector Art" class="gallery-img" data-index="2">
                 <div class="gallery-overlay">
                     <p>Photoshop/Illustration: Vector Art</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="images/Media (4).jfif" alt="Work Sample 4" class="gallery-img">
+                <img src="images/Media (4).jfif" alt="Photoshop/Illustration: Vector Art" class="gallery-img" data-index="3">
                 <div class="gallery-overlay">
                     <p>Photoshop/Illustration: Vector Art</p>
                 </div>
@@ -181,19 +260,19 @@
         <!-- Awards Gallery -->
         <div class="awards-gallery">
             <div class="award-gallery-item">
-                <img src="images/AwardTrop.png" alt="ASEAN Spoken Poetry Award" class="award-img">
+                <img src="images/AwardTrop.png" alt="ASEAN Spoken Poetry Award" class="award-img" data-index="4">
                 <div class="award-overlay">
                     <p>ASEAN Spoken Poetry Award</p>
                 </div>
             </div>
             <div class="award-gallery-item">
-                <img src="images/AwardVA.jfif" alt="Virtual Assistant Training Certificate" class="award-img">
+                <img src="images/AwardVA.jfif" alt="Virtual Assistant Training Certificate" class="award-img" data-index="5">
                 <div class="award-overlay">
                     <p>Virtual Assistant Training Certificate</p>
                 </div>
             </div>
             <div class="award-gallery-item">
-                <img src="1000199124.jpg" alt="Graystone Leadership Training Certificate" class="award-img">
+                <img src="1000199124.jpg" alt="Graystone Leadership Training Certificate" class="award-img" data-index="6">
                 <div class="award-overlay">
                     <p>Graystone Leadership Training Certificate</p>
                 </div>
@@ -205,24 +284,128 @@
         <p>© 2025 Ivan Borja. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for Enlarge Functionality -->
+    <!-- Lightbox Markup -->
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="lightbox-content" role="document">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close (Esc)">&times;</button>
+
+            <div class="lightbox-controls">
+                <button class="lightbox-button" id="prevBtn" aria-label="Previous (Left Arrow)"><i class="fas fa-chevron-left"></i></button>
+                <button class="lightbox-button" id="nextBtn" aria-label="Next (Right Arrow)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <img src="" alt="" class="lightbox-img" id="lightboxImg">
+            <div class="lightbox-caption" id="lightboxCaption" aria-live="polite"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Lightbox Functionality -->
     <script>
-        // Handle both Work Gallery and Awards Gallery
-        const galleryImages = document.querySelectorAll('.gallery-img, .award-img');
+        (function() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            const closeBtn = document.getElementById('lightboxClose');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
 
-        galleryImages.forEach(image => {
-            image.addEventListener('click', () => {
-                // Toggle the 'enlarged' class on the clicked image
-                image.classList.toggle('enlarged');
+            // Collect thumbnails in DOM order
+            const thumbSelector = '.gallery-img, .award-img';
+            const thumbs = Array.from(document.querySelectorAll(thumbSelector));
 
-                // If another image is already enlarged, shrink it
-                galleryImages.forEach(otherImage => {
-                    if (otherImage !== image && otherImage.classList.contains('enlarged')) {
-                        otherImage.classList.remove('enlarged');
-                    }
+            // Ensure data-index exists (fallback)
+            thumbs.forEach((t, i) => { if (!t.hasAttribute('data-index')) t.setAttribute('data-index', i); });
+
+            let currentIndex = -1;
+
+            function openLightbox(index) {
+                if (index < 0 || index >= thumbs.length) return;
+                currentIndex = index;
+                showImage(currentIndex);
+                lightbox.classList.add('open');
+                lightbox.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                closeBtn.focus();
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('open');
+                lightbox.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                currentIndex = -1;
+                // clear src to stop playback for media-like images
+                lightboxImg.src = '';
+            }
+
+            function showImage(index) {
+                const thumb = thumbs[index];
+                if (!thumb) return;
+                // use data-large if present, otherwise the thumbnail src
+                const src = thumb.getAttribute('data-large') || thumb.src;
+                const alt = thumb.alt || '';
+                lightboxImg.src = src;
+                lightboxImg.alt = alt;
+                lightboxCaption.textContent = alt;
+
+                // preload neighbors
+                const nextIndex = (index + 1) % thumbs.length;
+                const prevIndex = (index - 1 + thumbs.length) % thumbs.length;
+                preload(thumbs[nextIndex].getAttribute('data-large') || thumbs[nextIndex].src);
+                preload(thumbs[prevIndex].getAttribute('data-large') || thumbs[prevIndex].src);
+            }
+
+            function preload(src) {
+                const i = new Image();
+                i.src = src;
+            }
+
+            function showNext() {
+                if (thumbs.length === 0) return;
+                currentIndex = (currentIndex + 1) % thumbs.length;
+                showImage(currentIndex);
+            }
+
+            function showPrev() {
+                if (thumbs.length === 0) return;
+                currentIndex = (currentIndex - 1 + thumbs.length) % thumbs.length;
+                showImage(currentIndex);
+            }
+
+            // attach click handlers
+            thumbs.forEach((t, i) => {
+                t.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openLightbox(i);
                 });
             });
-        });
+
+            // controls
+            closeBtn.addEventListener('click', closeLightbox);
+            nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+            prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+
+            // click outside image to close
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('open')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') showNext();
+                if (e.key === 'ArrowLeft') showPrev();
+            });
+
+            // accessible focus trap: minimal — keep focus on close btn while open
+            document.addEventListener('focusin', (e) => {
+                if (!lightbox.classList.contains('open')) return;
+                if (!lightbox.contains(e.target)) {
+                    e.preventDefault();
+                    closeBtn.focus();
+                }
+            });
+        })();
     </script>
 </body>
 </html>
