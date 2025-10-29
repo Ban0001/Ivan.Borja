@@ -1,9 +1,5 @@
-/* ========================================
-   GLOBAL & RESET
-   ======================================== */
-*,
-*::before,
-*::after {
+/* Global Styles */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -17,9 +13,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ========================================
-   HERO SECTION
-   ======================================== */
+/* Hero Section */
 .hero {
     height: 100vh;
     display: flex;
@@ -32,8 +26,11 @@ body {
 .hero::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: url('images/shinmon.png') center/cover no-repeat;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/shinmon.png') no-repeat center/cover;
     opacity: 0.4;
     z-index: 0;
 }
@@ -54,21 +51,33 @@ body {
     font-size: 1.5rem;
     font-weight: 300;
     margin: 10px 0;
-    position: relative;
-    display: inline-block;
 }
 
-.des .cursor {
-    display: inline-block;
+.des span::before {
+    content: "Software Engineer";
+    animation: words 15s infinite;
+}
+
+.des span::after {
+    content: "";
+    position: absolute;
     width: 2px;
-    height: 1.2em;
+    height: 100%;
     background: #fff;
-    margin-left: 3px;
-    animation: blink 0.8s infinite;
-    vertical-align: middle;
+    right: -5px;
+    animation: cursor 0.8s infinite;
 }
 
-@keyframes blink {
+@keyframes words {
+    0%, 20% { content: "Software Engineer"; }
+    21%, 40% { content: "RPA Specialist"; }
+    41%, 60% { content: "Analyst"; }
+    61%, 80% { content: "Designer"; }
+    81%, 100% { content: "Innovator"; }
+}
+
+@keyframes cursor {
+    0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
 
@@ -84,27 +93,27 @@ body {
     border: 5px solid rgba(255, 255, 255, 0.3);
     margin-top: 20px;
     transition: transform 0.3s ease;
-    object-fit: cover;
 }
 
 .picture img:hover {
     transform: scale(1.05);
 }
 
-/* ========================================
-   CONTACT INFO (Responsive)
-   ======================================== */
+/* Contact Info */
 .contact-info {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 25px 20px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    gap: 15px;
+    padding: 20px 15px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    text-align: center;
     border-radius: 20px;
-    max-width: 1200px;
+    width: 1300px;
+    height: 120px;
     margin: 0 auto;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
     transition: transform 0.3s ease;
 }
 
@@ -113,10 +122,8 @@ body {
 }
 
 .contact-item {
-    flex: 1 1 220px;
-    text-align: center;
-    padding: 12px;
-    min-width: 180px;
+    flex: 1 1 auto;
+    padding: 10px;
     transition: background 0.3s ease, transform 0.3s ease;
 }
 
@@ -153,9 +160,7 @@ body {
     color: #ffd700;
 }
 
-/* ========================================
-   SECTIONS
-   ======================================== */
+/* Sections */
 .section {
     padding: 60px 20px;
     max-width: 1200px;
@@ -214,17 +219,13 @@ ul li::before {
     margin-bottom: 30px;
 }
 
-.education-item h4,
-.experience-item h4,
-.award-item h4 {
+.education-item h4, .experience-item h4, .award-item h4 {
     font-size: 1.5rem;
     font-weight: 600;
     color: #fff;
 }
 
-.education-item span,
-.experience-item span,
-.award-item span {
+.education-item span, .experience-item span, .award-item span {
     font-size: 1rem;
     color: #ccc;
 }
@@ -255,7 +256,11 @@ ul li::before {
     transition: width 1s ease-in-out;
 }
 
-/* Work Gallery */
+/* Work Gallery Section */
+.gallery {
+    background: rgba(255, 255, 255, 0.05);
+}
+
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -266,7 +271,7 @@ ul li::before {
     position: relative;
     overflow: hidden;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
     cursor: pointer;
 }
@@ -276,13 +281,24 @@ ul li::before {
     height: 200px;
     object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.gallery-img.enlarged {
+    width: 100%;
+    height: 400px;
+    z-index: 10;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .gallery-overlay {
     position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -302,6 +318,10 @@ ul li::before {
     margin: 0;
 }
 
+.gallery-item.enlarged .gallery-overlay {
+    height: 400px;
+}
+
 /* Awards Gallery */
 .awards-gallery {
     display: grid;
@@ -314,7 +334,7 @@ ul li::before {
     position: relative;
     overflow: hidden;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
     cursor: pointer;
 }
@@ -322,16 +342,26 @@ ul li::before {
 .award-img {
     width: 100%;
     height: 200px;
-    object-fit: contain;
-    background: transparent;
+    object-fit: contain; /* Use contain to preserve PNG transparency */
     display: block;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.award-img.enlarged {
+    width: 100%;
+    height: 400px;
+    z-index: 10;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .award-overlay {
     position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -351,6 +381,10 @@ ul li::before {
     margin: 0;
 }
 
+.award-gallery-item.enlarged .award-overlay {
+    height: 400px;
+}
+
 /* Footer */
 .footer {
     text-align: center;
@@ -362,10 +396,10 @@ ul li::before {
 
 /* Animations */
 @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Animation Delays */
 .section:nth-child(2) { animation-delay: 0.2s; }
 .section:nth-child(3) { animation-delay: 0.4s; }
 .section:nth-child(4) { animation-delay: 0.6s; }
@@ -373,123 +407,3 @@ ul li::before {
 .section:nth-child(6) { animation-delay: 1s; }
 .section:nth-child(7) { animation-delay: 1.2s; }
 .section:nth-child(8) { animation-delay: 1.4s; }
-
-/* ========================================
-   LIGHTBOX (Moved from HTML)
-   ======================================== */
-.lightbox {
-    position: fixed;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.85);
-    z-index: 2000;
-    padding: 20px;
-}
-
-.lightbox.open { display: flex; }
-
-.lightbox-content {
-    position: relative;
-    max-width: 1100px;
-    width: 100%;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.lightbox-img {
-    max-width: 100%;
-    max-height: 80vh;
-    border-radius: 6px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    object-fit: contain;
-    background: #fff;
-}
-
-.lightbox-caption {
-    color: #fff;
-    text-align: center;
-    font-size: 0.95rem;
-    max-width: 100%;
-    word-wrap: break-word;
-}
-
-.lightbox-controls {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-}
-
-.lightbox-button {
-    pointer-events: auto;
-    background: rgba(0,0,0,0.5);
-    border: none;
-    color: #fff;
-    font-size: 1.4rem;
-    padding: 10px 14px;
-    border-radius: 6px;
-    margin: 0 6px;
-    cursor: pointer;
-    transition: background .15s;
-}
-
-.lightbox-button:hover { background: rgba(0,0,0,0.7); }
-
-.lightbox-close {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    background: rgba(0,0,0,0.6);
-    border: none;
-    color: #fff;
-    padding: 8px 10px;
-    font-size: 1.1rem;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.gallery-img, .award-img { cursor: pointer; }
-
-/* ========================================
-   ACCESSIBILITY & UX
-   ======================================== */
-a:focus-visible,
-button:focus-visible,
-.gallery-img:focus-visible,
-.award-img:focus-visible {
-    outline: 3px solid #ffd700;
-    outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    .des .cursor { animation: none; }
-}
-
-/* ========================================
-   RESPONSIVE
-   ======================================== */
-@media (max-width: 768px) {
-    .name { font-size: 3rem; }
-    .des { font-size: 1.2rem; }
-    .picture img { width: 160px; height: 160px; }
-    h2 { font-size: 2rem; }
-    .section { padding: 40px 15px; }
-}
-
-@media (max-width: 480px) {
-    .name { font-size: 2.5rem; }
-    .picture img { width: 140px; height: 140px; }
-}
