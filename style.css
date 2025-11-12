@@ -107,7 +107,6 @@ body {
 }
 .section p {
     max-width: 800px;
-    margin: 0 auto 20px auto;
     line-height: 1.8;
     text-align: justify;
 }
@@ -419,3 +418,4 @@ ul li::before {
 .section:nth-child(6) { animation-delay: 1s; }
 .section:nth-child(7) { animation-delay: 1.2s; }
 .section:nth-child(8) { animation-delay: 1.4s; }
+
