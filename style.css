@@ -107,7 +107,6 @@ body {
 }
 .section p {
     max-width: 800px;
-    margin: 1.5rem auto;
     line-height: 1.8;
     text-align: justify;
 }
